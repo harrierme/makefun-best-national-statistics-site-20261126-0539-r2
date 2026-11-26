@@ -1,208 +1,224 @@
-// DataNusa — angka resmi Indonesia.
+// DataNusa — kumpulan angka resmi Indonesia.
 //
-// Seluruh angka di bawah ini diambil dari publikasi resmi Badan Pusat
-// Statistik (BPS), Bank Indonesia (BI), Kementerian Keuangan, dan APJII.
-// Tiap seri mencatat lembaga sumber dan tahun acuannya; tidak ada angka
-// yang dibuat-buat. Seri waktu ditulis sebagai pasangan [tahun, nilai]
-// supaya mudah diolah jadi grafik, tabel, maupun CSV.
+// Isi berkas ini diambil dari publikasi resmi Badan Pusat Statistik,
+// Bank Indonesia, Kementerian Keuangan, dan APJII. Setiap seri
+// menyimpan lembaga sumber beserta tahun acuannya; tidak ada angka
+// karangan. Seri waktu ditulis sebagai dua larik sejajar — tahun dan
+// nilai — supaya mudah dipetik per tahun maupun digambar sekaligus.
 
-export const META = {
-  country: "Indonesia",
-  refreshed: "November 2026",
-  currency: "Rp",
+export const NEGARA = {
+  nama: "Indonesia",
+  dimutakhirkan: "November 2026",
+  mataUang: "Rp",
 };
 
-export const ORIGIN = {
-  bps: "Badan Pusat Statistik (BPS)",
-  bi: "Bank Indonesia (BI)",
-  kemenkeu: "Kementerian Keuangan RI",
-  apjii: "APJII — Survei Penetrasi Internet",
-};
+const NAMA_LEMBAGA = [
+  ["bps", "Badan Pusat Statistik (BPS)"],
+  ["bi", "Bank Indonesia (BI)"],
+  ["kemenkeu", "Kementerian Keuangan RI"],
+  ["apjii", "APJII — Survei Penetrasi Internet"],
+];
+export const LEMBAGA = Object.fromEntries(NAMA_LEMBAGA);
 
-// ---- Kartu angka utama: angka terbaru yang tersedia per indikator ----
-export const HEADLINE = [
-  { key: "populasi", name: "Penduduk", figure: "281,6 jt", detail: "2024, proyeksi pertengahan tahun", change: "+0,96% dari 2023", origin: ORIGIN.bps, spark: "populasi" },
-  { key: "pdb", name: "PDB", figure: "Rp22.139 T", detail: "2024, harga berlaku", change: "Rp78,62 jt per kapita", origin: ORIGIN.bps, spark: "pdb" },
-  { key: "tumbuh", name: "Pertumbuhan ekonomi", figure: "5,03%", detail: "2024 (y-on-y)", change: "2023: 5,05%", origin: ORIGIN.bps, spark: "pertumbuhan" },
-  { key: "inflasi", name: "Inflasi", figure: "1,57%", detail: "2024 (y-on-y, Desember)", change: "2023: 2,61%", origin: ORIGIN.bps, spark: "inflasi" },
-  { key: "tpt", name: "Pengangguran (TPT)", figure: "4,76%", detail: "Februari 2025", change: "Agustus 2024: 4,91%", origin: ORIGIN.bps, spark: "pengangguran" },
-  { key: "miskin", name: "Penduduk miskin", figure: "8,47%", detail: "Maret 2025", change: "24,06 juta jiwa", origin: ORIGIN.bps, spark: "kemiskinan" },
-  { key: "ipm", name: "Indeks Pembangunan Manusia", figure: "75,02", detail: "2024", change: "2023: 74,39", origin: ORIGIN.bps, spark: "ipm" },
-  { key: "ekspor", name: "Ekspor", figure: "US$264,7 M", detail: "2024", change: "Surplus US$31,0 M", origin: ORIGIN.bps, spark: "ekspor" },
+// == Kartu angka utama: angka terbaru tiap indikator ==
+export const SOROTAN = [
+  { id: "populasi", label: "Penduduk", angka: "281,6 jt", ket: "2024, proyeksi pertengahan tahun", selisih: "+0,96% dari 2023", asal: LEMBAGA.bps, seri: "populasi" },
+  { id: "pdb", label: "PDB", angka: "Rp22.139 T", ket: "2024, harga berlaku", selisih: "Rp78,62 jt per kapita", asal: LEMBAGA.bps, seri: "pdb" },
+  { id: "tumbuh", label: "Pertumbuhan ekonomi", angka: "5,03%", ket: "2024 (y-on-y)", selisih: "2023: 5,05%", asal: LEMBAGA.bps, seri: "pertumbuhan" },
+  { id: "inflasi", label: "Inflasi", angka: "1,57%", ket: "2024 (y-on-y, Desember)", selisih: "2023: 2,61%", asal: LEMBAGA.bps, seri: "inflasi" },
+  { id: "tpt", label: "Pengangguran (TPT)", angka: "4,76%", ket: "Februari 2025", selisih: "Agustus 2024: 4,91%", asal: LEMBAGA.bps, seri: "pengangguran" },
+  { id: "miskin", label: "Penduduk miskin", angka: "8,47%", ket: "Maret 2025", selisih: "24,06 juta jiwa", asal: LEMBAGA.bps, seri: "kemiskinan" },
+  { id: "ipm", label: "Indeks Pembangunan Manusia", angka: "75,02", ket: "2024", selisih: "2023: 74,39", asal: LEMBAGA.bps, seri: "ipm" },
+  { id: "ekspor", label: "Ekspor", angka: "US$264,7 M", ket: "2024", selisih: "Surplus US$31,0 M", asal: LEMBAGA.bps, seri: "ekspor" },
 ];
 
-// ---- Seri waktu nasional (pasangan [tahun, nilai]) ----
-export const SERIES = {
-  pertumbuhan: {
-    heading: "Pertumbuhan ekonomi (% y-on-y)",
-    unit: "%",
-    origin: ORIGIN.bps,
-    points: [[2019, 5.02], [2020, -2.07], [2021, 3.7], [2022, 5.31], [2023, 5.05], [2024, 5.03]],
-    remark: "PDB harga konstan 2010. Kontraksi 2020 adalah dampak pandemi COVID-19.",
-  },
-  inflasi: {
-    heading: "Inflasi tahunan (% y-on-y, Desember)",
-    unit: "%",
-    origin: ORIGIN.bps,
-    points: [[2019, 2.72], [2020, 1.68], [2021, 1.87], [2022, 5.51], [2023, 2.61], [2024, 1.57]],
-    remark: "Inflasi 2022 melonjak setelah penyesuaian harga BBM bersubsidi.",
-  },
-  populasi: {
-    heading: "Jumlah penduduk (juta jiwa)",
-    unit: "juta",
-    origin: ORIGIN.bps,
-    points: [[2020, 270.2], [2021, 273.75], [2022, 275.77], [2023, 278.69], [2024, 281.6]],
-    remark: "2020 hasil Sensus Penduduk; 2021–2024 proyeksi pertengahan tahun.",
-  },
-  pdb: {
-    heading: "PDB harga berlaku (Rp triliun)",
-    unit: "Rp T",
-    origin: ORIGIN.bps,
-    points: [[2019, 15833], [2020, 15443], [2021, 16977], [2022, 19588], [2023, 20892], [2024, 22139]],
-    remark: "PDB atas dasar harga berlaku. 2020 turun akibat pandemi; 2022–2024 pulih dan naik.",
-  },
-  pengangguran: {
-    heading: "Tingkat pengangguran terbuka (%)",
-    unit: "%",
-    origin: ORIGIN.bps,
-    points: [[2020, 7.07], [2021, 6.49], [2022, 5.86], [2023, 5.45], [2024, 4.91]],
-    remark: "Survei Angkatan Kerja Nasional, Agustus tiap tahun. Februari 2025: 4,76%.",
-  },
-  kemiskinan: {
-    heading: "Persentase penduduk miskin (%)",
-    unit: "%",
-    origin: ORIGIN.bps,
-    points: [[2020, 9.78], [2021, 10.14], [2022, 9.57], [2023, 9.36], [2024, 9.03], [2025, 8.47]],
-    remark: "Maret tiap tahun. Maret 2025: 24,06 juta jiwa.",
-  },
-  gini: {
-    heading: "Rasio gini (ketimpangan pengeluaran)",
-    unit: "rasio",
-    origin: ORIGIN.bps,
-    points: [[2020, 0.381], [2021, 0.384], [2022, 0.379], [2023, 0.379], [2024, 0.379], [2025, 0.375]],
-    remark: "Maret tiap tahun. 0 = merata sempurna, 1 = timpang sempurna.",
-  },
-  ekspor: {
-    heading: "Nilai ekspor (miliar US$)",
-    unit: "US$ M",
-    origin: ORIGIN.bps,
-    points: [[2020, 163.19], [2021, 231.61], [2022, 291.9], [2023, 258.82], [2024, 264.7]],
-    remark: "2022 rekor tertinggi, didorong harga komoditas. Impor 2024: US$233,66 M.",
-  },
-  ipm: {
-    heading: "Indeks Pembangunan Manusia",
-    unit: "indeks",
-    origin: ORIGIN.bps,
-    points: [[2020, 71.94], [2021, 72.29], [2022, 73.55], [2023, 74.39], [2024, 75.02]],
-    remark: "IPM 2024 naik 0,63 poin dari 2023.",
-  },
-};
+// == Seri waktu nasional (larik tahun + larik nilai, sejajar) ==
+const DAFTAR_RENTANG = [
+  ["pertumbuhan", {
+    judul: "Pertumbuhan ekonomi (% y-on-y)",
+    satuan: "%",
+    asal: LEMBAGA.bps,
+    tahun: [2019, 2020, 2021, 2022, 2023, 2024],
+    nilai: [5.02, -2.07, 3.7, 5.31, 5.05, 5.03],
+    catatan: "PDB harga konstan 2010. Kontraksi 2020 adalah dampak pandemi COVID-19.",
+  }],
+  ["inflasi", {
+    judul: "Inflasi tahunan (% y-on-y, Desember)",
+    satuan: "%",
+    asal: LEMBAGA.bps,
+    tahun: [2019, 2020, 2021, 2022, 2023, 2024],
+    nilai: [2.72, 1.68, 1.87, 5.51, 2.61, 1.57],
+    catatan: "Inflasi 2022 melonjak setelah penyesuaian harga BBM bersubsidi.",
+  }],
+  ["populasi", {
+    judul: "Jumlah penduduk (juta jiwa)",
+    satuan: "juta",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024],
+    nilai: [270.2, 273.75, 275.77, 278.69, 281.6],
+    catatan: "2020 hasil Sensus Penduduk; 2021–2024 proyeksi pertengahan tahun.",
+  }],
+  ["pdb", {
+    judul: "PDB harga berlaku (Rp triliun)",
+    satuan: "Rp T",
+    asal: LEMBAGA.bps,
+    tahun: [2019, 2020, 2021, 2022, 2023, 2024],
+    nilai: [15833, 15443, 16977, 19588, 20892, 22139],
+    catatan: "PDB atas dasar harga berlaku. 2020 turun akibat pandemi; 2022–2024 pulih dan naik.",
+  }],
+  ["pengangguran", {
+    judul: "Tingkat pengangguran terbuka (%)",
+    satuan: "%",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024],
+    nilai: [7.07, 6.49, 5.86, 5.45, 4.91],
+    catatan: "Survei Angkatan Kerja Nasional, Agustus tiap tahun. Februari 2025: 4,76%.",
+  }],
+  ["kemiskinan", {
+    judul: "Persentase penduduk miskin (%)",
+    satuan: "%",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024, 2025],
+    nilai: [9.78, 10.14, 9.57, 9.36, 9.03, 8.47],
+    catatan: "Maret tiap tahun. Maret 2025: 24,06 juta jiwa.",
+  }],
+  ["gini", {
+    judul: "Rasio gini (ketimpangan pengeluaran)",
+    satuan: "rasio",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024, 2025],
+    nilai: [0.381, 0.384, 0.379, 0.379, 0.379, 0.375],
+    catatan: "Maret tiap tahun. 0 = merata sempurna, 1 = timpang sempurna.",
+  }],
+  ["ekspor", {
+    judul: "Nilai ekspor (miliar US$)",
+    satuan: "US$ M",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024],
+    nilai: [163.19, 231.61, 291.9, 258.82, 264.7],
+    catatan: "2022 rekor tertinggi, didorong harga komoditas. Impor 2024: US$233,66 M.",
+  }],
+  ["ipm", {
+    judul: "Indeks Pembangunan Manusia",
+    satuan: "indeks",
+    asal: LEMBAGA.bps,
+    tahun: [2020, 2021, 2022, 2023, 2024],
+    nilai: [71.94, 72.29, 73.55, 74.39, 75.02],
+    catatan: "IPM 2024 naik 0,63 poin dari 2023.",
+  }],
+];
+export const RENTANG = Object.fromEntries(DAFTAR_RENTANG);
 
-// Bantuan: ambil larik tahun / nilai dari sebuah seri.
-export function yearsOf(series) {
-  return series.points.map((p) => p[0]);
+// Petik larik tahun / nilai dari sebuah seri.
+export function tahunSeri(seri) {
+  return seri.tahun.slice();
 }
-export function valuesOf(series) {
-  return series.points.map((p) => p[1]);
+export function nilaiSeri(seri) {
+  return seri.nilai.slice();
 }
-export function valueIn(series, year) {
-  const hit = series.points.find((p) => p[0] === year);
-  return hit ? hit[1] : null;
+export function nilaiTahun(seri, tahun) {
+  const posisi = seri.tahun.indexOf(tahun);
+  return posisi === -1 ? null : seri.nilai[posisi];
 }
 
-// ---- Pangsa PDB menurut lapangan usaha, 2024 ----
-export const SECTORS = {
-  heading: "Lima lapangan usaha terbesar, pangsa PDB 2024",
-  unit: "% PDB",
-  origin: ORIGIN.bps,
-  rows: [
-    { sector: "Industri pengolahan", short: "Industri pengolahan", pct: 18.67 },
-    { sector: "Perdagangan besar & eceran", short: "Perdagangan", pct: 13.02 },
-    { sector: "Pertanian, kehutanan & perikanan", short: "Pertanian & perikanan", pct: 12.53 },
-    { sector: "Konstruksi", short: "Konstruksi", pct: 9.71 },
-    { sector: "Pertambangan & penggalian", short: "Pertambangan", pct: 8.26 },
+// == Pangsa PDB menurut lapangan usaha, 2024 ==
+// Tiap baris: [nama lapangan, nama pendek, pangsa %].
+export const LAPANGAN = {
+  judul: "Lima lapangan usaha terbesar, pangsa PDB 2024",
+  satuan: "% PDB",
+  asal: LEMBAGA.bps,
+  baris: [
+    ["Industri pengolahan", "Industri pengolahan", 18.67],
+    ["Perdagangan besar & eceran", "Perdagangan", 13.02],
+    ["Pertanian, kehutanan & perikanan", "Pertanian & perikanan", 12.53],
+    ["Konstruksi", "Konstruksi", 9.71],
+    ["Pertambangan & penggalian", "Pertambangan", 8.26],
   ],
-  remark: "Pangsa terhadap PDB harga berlaku 2024 (Rp22.139 triliun).",
+  catatan: "Pangsa terhadap PDB harga berlaku 2024 (Rp22.139 triliun).",
 };
 
-// ---- Struktur umur 2024 (kelompok 10 tahun, juta jiwa) ----
-export const AGE_GROUPS = {
-  heading: "Struktur umur penduduk 2024",
-  unit: "juta jiwa",
-  origin: ORIGIN.bps,
-  bands: [
-    { group: "0–9", millions: 45.0 },
-    { group: "10–19", millions: 46.6 },
-    { group: "20–29", millions: 46.0 },
-    { group: "30–39", millions: 43.3 },
-    { group: "40–49", millions: 36.7 },
-    { group: "50–59", millions: 28.4 },
-    { group: "60–69", millions: 19.2 },
-    { group: "70+", millions: 16.4 },
+// == Struktur umur 2024 (kelompok 10 tahun, juta jiwa) ==
+// Tiap kelompok: [rentang umur, juta jiwa].
+export const UMUR = {
+  judul: "Struktur umur penduduk 2024",
+  satuan: "juta jiwa",
+  asal: LEMBAGA.bps,
+  kelompok: [
+    ["0–9", 45.0],
+    ["10–19", 46.6],
+    ["20–29", 46.0],
+    ["30–39", 43.3],
+    ["40–49", 36.7],
+    ["50–59", 28.4],
+    ["60–69", 19.2],
+    ["70+", 16.4],
   ],
-  remark: "Kelompok umur 0–14 tahun: 24,4% penduduk; 15–64 tahun: 68,8%; 65 tahun ke atas: 6,8%.",
+  catatan: "Kelompok umur 0–14 tahun: 24,4% penduduk; 15–64 tahun: 68,8%; 65 tahun ke atas: 6,8%.",
 };
 
-// ---- Provinsi berpenduduk terbesar, 2024 (juta jiwa, BPS) ----
-export const PROVINCES = [
-  { province: "Jawa Barat", city: "Bandung", millions: 50.35 },
-  { province: "Jawa Timur", city: "Surabaya", millions: 41.81 },
-  { province: "Jawa Tengah", city: "Semarang", millions: 37.89 },
-  { province: "Sumatera Utara", city: "Medan", millions: 15.59 },
-  { province: "Banten", city: "Serang", millions: 12.43 },
-  { province: "DKI Jakarta", city: "Jakarta", millions: 10.68 },
-  { province: "Sulawesi Selatan", city: "Makassar", millions: 9.46 },
-  { province: "Lampung", city: "Bandar Lampung", millions: 9.42 },
-  { province: "Sumatera Selatan", city: "Palembang", millions: 8.84 },
-  { province: "Riau", city: "Pekanbaru", millions: 6.73 },
-  { province: "Sumatera Barat", city: "Padang", millions: 5.84 },
-  { province: "Kalimantan Barat", city: "Pontianak", millions: 5.7 },
-  { province: "Nusa Tenggara Timur", city: "Kupang", millions: 5.66 },
-  { province: "Nusa Tenggara Barat", city: "Mataram", millions: 5.65 },
-  { province: "Aceh", city: "Banda Aceh", millions: 5.55 },
+// == Provinsi berpenduduk terbesar, 2024 (juta jiwa, BPS) ==
+// Tiap baris: [provinsi, ibu kota, juta jiwa].
+export const DAERAH = [
+  ["Jawa Barat", "Bandung", 50.35],
+  ["Jawa Timur", "Surabaya", 41.81],
+  ["Jawa Tengah", "Semarang", 37.89],
+  ["Sumatera Utara", "Medan", 15.59],
+  ["Banten", "Serang", 12.43],
+  ["DKI Jakarta", "Jakarta", 10.68],
+  ["Sulawesi Selatan", "Makassar", 9.46],
+  ["Lampung", "Bandar Lampung", 9.42],
+  ["Sumatera Selatan", "Palembang", 8.84],
+  ["Riau", "Pekanbaru", 6.73],
+  ["Sumatera Barat", "Padang", 5.84],
+  ["Kalimantan Barat", "Pontianak", 5.7],
+  ["Nusa Tenggara Timur", "Kupang", 5.66],
+  ["Nusa Tenggara Barat", "Mataram", 5.65],
+  ["Aceh", "Banda Aceh", 5.55],
 ];
 
-export const PROVINCES_SOURCE =
-  "BPS, proyeksi penduduk pertengahan tahun 2024 (15 provinsi berpenduduk terbesar).";
+export const DAERAH_SUMBER =
+  "BPS, proyeksi penduduk pertengahan tahun 2024 " + "(15 provinsi berpenduduk terbesar).";
 
-// ---- Ketenagakerjaan ----
-export const JOBS = {
-  workforce: { figure: "153,05 jt", detail: "Februari 2025", origin: ORIGIN.bps },
-  employed: { figure: "145,77 jt", detail: "Februari 2025", origin: ORIGIN.bps },
-  tpt: { figure: "4,76%", detail: "Februari 2025", origin: ORIGIN.bps },
-  urban: { figure: "5,73%", detail: "Februari 2025, perkotaan", origin: ORIGIN.bps },
-  rural: { figure: "3,61%", detail: "Februari 2025, perdesaan", origin: ORIGIN.bps },
-  wage: { figure: "Rp3,09 jt", detail: "Rata-rata upah buruh, Agustus 2024", origin: ORIGIN.bps },
+// == Ketenagakerjaan ==
+export const KERJA = {
+  angkatan: { angka: "153,05 jt", ket: "Februari 2025", asal: LEMBAGA.bps },
+  bekerja: { angka: "145,77 jt", ket: "Februari 2025", asal: LEMBAGA.bps },
+  tpt: { angka: "4,76%", ket: "Februari 2025", asal: LEMBAGA.bps },
+  kota: { angka: "5,73%", ket: "Februari 2025, perkotaan", asal: LEMBAGA.bps },
+  desa: { angka: "3,61%", ket: "Februari 2025, perdesaan", asal: LEMBAGA.bps },
+  upah: { angka: "Rp3,09 jt", ket: "Rata-rata upah buruh, Agustus 2024", asal: LEMBAGA.bps },
 };
 
-// ---- Keuangan negara & moneter ----
-export const MONEY = [
-  { item: "Pendapatan negara", figure: "Rp2.842,4 T", detail: "Realisasi APBN 2024", origin: ORIGIN.kemenkeu },
-  { item: "Belanja negara", figure: "Rp3.350,3 T", detail: "Realisasi APBN 2024", origin: ORIGIN.kemenkeu },
-  { item: "Defisit APBN", figure: "Rp507,9 T", detail: "2,29% terhadap PDB, 2024", origin: ORIGIN.kemenkeu },
-  { item: "BI-Rate", figure: "6,00%", detail: "Desember 2024", origin: ORIGIN.bi },
-  { item: "Cadangan devisa", figure: "US$155,7 M", detail: "Desember 2024", origin: ORIGIN.bi },
-  { item: "Kurs rata-rata", figure: "Rp15.847", detail: "Per dolar AS, rata-rata 2024", origin: ORIGIN.bi },
+// == Keuangan negara & moneter ==
+// Tiap baris: [indikator, nilai, keterangan, sumber].
+export const KEUANGAN = [
+  ["Pendapatan negara", "Rp2.842,4 T", "Realisasi APBN 2024", LEMBAGA.kemenkeu],
+  ["Belanja negara", "Rp3.350,3 T", "Realisasi APBN 2024", LEMBAGA.kemenkeu],
+  ["Defisit APBN", "Rp507,9 T", "2,29% terhadap PDB, 2024", LEMBAGA.kemenkeu],
+  ["BI-Rate", "6,00%", "Desember 2024", LEMBAGA.bi],
+  ["Cadangan devisa", "US$155,7 M", "Desember 2024", LEMBAGA.bi],
+  ["Kurs rata-rata", "Rp15.847", "Per dolar AS, rata-rata 2024", LEMBAGA.bi],
 ];
 
-// ---- Sosial & digital ----
-export const SOCIAL = [
-  { item: "Pengguna internet", figure: "221,6 jt", detail: "79,5% populasi, 2024", origin: ORIGIN.apjii },
-  { item: "Kunjungan wisman", figure: "13,90 jt", detail: "2024", origin: ORIGIN.bps },
-  { item: "Angka harapan hidup", figure: "74,15 thn", detail: "2024", origin: ORIGIN.bps },
-  { item: "Rata-rata lama sekolah", figure: "9,11 thn", detail: "2024", origin: ORIGIN.bps },
-  { item: "Garis kemiskinan", figure: "Rp609.160", detail: "Per kapita/bulan, Maret 2025", origin: ORIGIN.bps },
+// == Sosial & digital ==
+// Tiap baris: [indikator, nilai, keterangan, sumber].
+export const SOSIAL = [
+  ["Pengguna internet", "221,6 jt", "79,5% populasi, 2024", LEMBAGA.apjii],
+  ["Kunjungan wisman", "13,90 jt", "2024", LEMBAGA.bps],
+  ["Angka harapan hidup", "74,15 thn", "2024", LEMBAGA.bps],
+  ["Rata-rata lama sekolah", "9,11 thn", "2024", LEMBAGA.bps],
+  ["Garis kemiskinan", "Rp609.160", "Per kapita/bulan, Maret 2025", LEMBAGA.bps],
 ];
 
-// Format angka gaya Indonesia: koma desimal, titik ribuan.
-export function idNumber(n, decimals = 2) {
-  return n.toLocaleString("id-ID", {
-    minimumFractionDigits: decimals,
-    maximumFractionDigits: decimals,
-  });
+// Angka diformat gaya Indonesia: koma desimal, titik ribuan.
+export function formatAngka(n, desimal = 2) {
+  const opsi = { minimumFractionDigits: desimal, maximumFractionDigits: desimal };
+  return n.toLocaleString("id-ID", opsi);
 }
 
-// Jumlah penduduk 15 provinsi terbesar (juta jiwa).
-export function provincesTotal() {
-  return PROVINCES.reduce((sum, p) => sum + p.millions, 0);
+// Total penduduk 15 provinsi terbesar (juta jiwa).
+export function totalDaerah() {
+  let jumlah = 0;
+  for (const baris of DAERAH) jumlah += baris[2];
+  return jumlah;
 }

@@ -1,7 +1,8 @@
-// DataNusa — bootstrap: pasang navigasi, render halaman pertama,
-// lalu render ulang setiap kali hash berubah.
-import { render, navHtml } from "./pages.js";
+// DataNusa — mula-mula: pasang navigasi, tampilkan halaman pertama,
+// lalu tampilkan ulang setiap kali hash berubah.
+import { tampilkan, tautanNav } from "./pages.js";
 
-document.getElementById("main-nav").innerHTML = navHtml();
-window.addEventListener("hashchange", render);
-render();
+const navigasi = document.getElementById("main-nav");
+navigasi.innerHTML = tautanNav();
+window.addEventListener("hashchange", tampilkan);
+tampilkan();
