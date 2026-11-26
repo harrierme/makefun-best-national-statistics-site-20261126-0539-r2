@@ -22,7 +22,7 @@ export const ORIGIN = {
 // ---- Kartu angka utama: angka terbaru yang tersedia per indikator ----
 export const HEADLINE = [
   { key: "populasi", name: "Penduduk", figure: "281,6 jt", detail: "2024, proyeksi pertengahan tahun", change: "+0,96% dari 2023", origin: ORIGIN.bps, spark: "populasi" },
-  { key: "pdb", name: "PDB", figure: "Rp22.139 T", detail: "2024, harga berlaku", change: "Rp78,62 jt per kapita", origin: ORIGIN.bps, spark: "ekspor" },
+  { key: "pdb", name: "PDB", figure: "Rp22.139 T", detail: "2024, harga berlaku", change: "Rp78,62 jt per kapita", origin: ORIGIN.bps, spark: "pdb" },
   { key: "tumbuh", name: "Pertumbuhan ekonomi", figure: "5,03%", detail: "2024 (y-on-y)", change: "2023: 5,05%", origin: ORIGIN.bps, spark: "pertumbuhan" },
   { key: "inflasi", name: "Inflasi", figure: "1,57%", detail: "2024 (y-on-y, Desember)", change: "2023: 2,61%", origin: ORIGIN.bps, spark: "inflasi" },
   { key: "tpt", name: "Pengangguran (TPT)", figure: "4,76%", detail: "Februari 2025", change: "Agustus 2024: 4,91%", origin: ORIGIN.bps, spark: "pengangguran" },
@@ -53,6 +53,13 @@ export const SERIES = {
     origin: ORIGIN.bps,
     points: [[2020, 270.2], [2021, 273.75], [2022, 275.77], [2023, 278.69], [2024, 281.6]],
     remark: "2020 hasil Sensus Penduduk; 2021–2024 proyeksi pertengahan tahun.",
+  },
+  pdb: {
+    heading: "PDB harga berlaku (Rp triliun)",
+    unit: "Rp T",
+    origin: ORIGIN.bps,
+    points: [[2019, 15833], [2020, 15443], [2021, 16977], [2022, 19588], [2023, 20892], [2024, 22139]],
+    remark: "PDB atas dasar harga berlaku. 2020 turun akibat pandemi; 2022–2024 pulih dan naik.",
   },
   pengangguran: {
     heading: "Tingkat pengangguran terbuka (%)",
@@ -138,21 +145,21 @@ export const AGE_GROUPS = {
 
 // ---- Provinsi berpenduduk terbesar, 2024 (juta jiwa, BPS) ----
 export const PROVINCES = [
-  { province: "Jawa Barat", city: "Bandung", millions: 49.94 },
+  { province: "Jawa Barat", city: "Bandung", millions: 50.35 },
   { province: "Jawa Timur", city: "Surabaya", millions: 41.81 },
   { province: "Jawa Tengah", city: "Semarang", millions: 37.89 },
-  { province: "Sumatera Utara", city: "Medan", millions: 16.03 },
+  { province: "Sumatera Utara", city: "Medan", millions: 15.59 },
   { province: "Banten", city: "Serang", millions: 12.43 },
-  { province: "DKI Jakarta", city: "Jakarta", millions: 10.56 },
-  { province: "Sulawesi Selatan", city: "Makassar", millions: 9.51 },
-  { province: "Lampung", city: "Bandar Lampung", millions: 9.33 },
-  { province: "Sumatera Selatan", city: "Palembang", millions: 9.02 },
-  { province: "Riau", city: "Pekanbaru", millions: 6.96 },
-  { province: "Sumatera Barat", city: "Padang", millions: 6.03 },
-  { province: "Kalimantan Barat", city: "Pontianak", millions: 5.8 },
-  { province: "Kalimantan Timur", city: "Samarinda", millions: 4.04 },
-  { province: "Bali", city: "Denpasar", millions: 4.41 },
-  { province: "DI Yogyakarta", city: "Yogyakarta", millions: 3.78 },
+  { province: "DKI Jakarta", city: "Jakarta", millions: 10.68 },
+  { province: "Sulawesi Selatan", city: "Makassar", millions: 9.46 },
+  { province: "Lampung", city: "Bandar Lampung", millions: 9.42 },
+  { province: "Sumatera Selatan", city: "Palembang", millions: 8.84 },
+  { province: "Riau", city: "Pekanbaru", millions: 6.73 },
+  { province: "Sumatera Barat", city: "Padang", millions: 5.84 },
+  { province: "Kalimantan Barat", city: "Pontianak", millions: 5.7 },
+  { province: "Nusa Tenggara Timur", city: "Kupang", millions: 5.66 },
+  { province: "Nusa Tenggara Barat", city: "Mataram", millions: 5.65 },
+  { province: "Aceh", city: "Banda Aceh", millions: 5.55 },
 ];
 
 export const PROVINCES_SOURCE =

@@ -123,7 +123,34 @@ main { padding: 28px 20px 40px; }
   border-radius: var(--corner);
   padding: 36px 32px;
   margin-bottom: 20px;
+  display: flex;
+  gap: 28px;
+  align-items: center;
 }
+
+.hero-main { flex: 1; min-width: 0; }
+
+.hero-side {
+  flex: 0 0 250px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.hero-side-title {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #e8c96a;
+}
+
+.hero-side dl { margin: 0; display: grid; gap: 10px; }
+.hero-side dl div { display: flex; justify-content: space-between; gap: 12px; }
+.hero-side dt { color: #dbe2ee; font-size: 14px; }
+.hero-side dd { margin: 0; font-weight: 700; color: #fff; font-size: 15px; white-space: nowrap; }
 
 .hero h1 {
   font-family: Georgia, "Times New Roman", serif;
@@ -229,6 +256,8 @@ canvas { display: block; width: 100%; }
 .points li { margin-bottom: 10px; }
 
 .tbl { width: 100%; border-collapse: collapse; font-size: 15px; }
+.tbl-wrap { overflow-x: auto; }
+.tbl-wrap .tbl { min-width: 560px; }
 .tbl th, .tbl td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
 .tbl thead th { font-size: 13px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--faint); }
 .tbl tbody tr:hover { background: #faf8f2; }
@@ -283,6 +312,8 @@ canvas { display: block; width: 100%; }
 @media (max-width: 860px) {
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .cols-2 { grid-template-columns: 1fr; }
+  .hero { flex-direction: column; align-items: stretch; }
+  .hero-side { flex: none; }
   .hero h1 { font-size: 32px; }
   .page-top h1 { font-size: 28px; }
   #main-nav { margin-left: 0; }

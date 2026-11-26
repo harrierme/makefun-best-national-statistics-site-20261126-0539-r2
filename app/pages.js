@@ -57,7 +57,7 @@ function yearTable(series) {
   const rows = series.points
     .map(([y, v]) => `<tr><td>${y}</td><td>${idNumber(v, series.unit === "rasio" ? 3 : 2)}</td></tr>`)
     .join("");
-  return `<table class="tbl"><thead><tr><th>Tahun</th><th>${esc(series.heading)}</th></tr></thead><tbody>${rows}</tbody></table>`;
+  return `<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Tahun</th><th>${esc(series.heading)}</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 // Daftarkan grafik halaman ini supaya digambar sekarang + saat resize.
@@ -81,6 +81,7 @@ function pageHome() {
   const cards = HEADLINE.map(statCard).join("");
   return `
   <section class="hero">
+    <div class="hero-main">
     <p class="kicker">Portal statistik resmi · Indonesia</p>
     <h1>Indonesia dalam angka</h1>
     <p class="lede">Penduduk, ekonomi, pekerjaan, dan kesejahteraan Indonesia — dirangkum dari
@@ -89,6 +90,16 @@ function pageHome() {
       <a class="button" href="#/ekonomi">Lihat ekonomi →</a>
       <a class="button outline" href="#/penduduk">Jelajahi provinsi →</a>
     </div>
+    </div>
+    <aside class="hero-side" aria-label="Angka kunci 2024">
+      <p class="hero-side-title">Sekilas 2024</p>
+      <dl>
+        <div><dt>Penduduk</dt><dd>281,6 jt</dd></div>
+        <div><dt>PDB</dt><dd>Rp22.139 T</dd></div>
+        <div><dt>Pertumbuhan</dt><dd>5,03%</dd></div>
+        <div><dt>Kemiskinan</dt><dd>8,47%</dd></div>
+      </dl>
+    </aside>
   </section>
 
   <section class="stat-grid">${cards}</section>
@@ -112,12 +123,12 @@ function pageHome() {
 
   <section class="panel">
     <h2>Provinsi berpenduduk terbesar</h2>
-    <table class="tbl">
+    <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>#</th><th>Provinsi</th><th>Ibu kota</th><th>Penduduk 2024 (juta)</th><th>Pangsa</th></tr></thead>
       <tbody>
         ${PROVINCES.slice(0, 5).map((p, i) => `<tr><td>${i + 1}</td><td><a href="#/penduduk">${esc(p.province)}</a></td><td>${esc(p.city)}</td><td>${idNumber(p.millions)}</td><td>${idNumber((p.millions / 281.6) * 100, 1)}%</td></tr>`).join("")}
       </tbody>
-    </table>
+    </table></div>
     <p><a href="#/penduduk">Lihat semua 15 provinsi terbesar →</a></p>
     ${originLine(PROVINCES_SOURCE)}
   </section>`;
@@ -164,10 +175,10 @@ function pageEconomy() {
 
   <section class="panel">
     <h2>Keuangan negara &amp; moneter</h2>
-    <table class="tbl">
+    <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>Indikator</th><th>Nilai</th><th>Keterangan</th><th>Sumber</th></tr></thead>
       <tbody>${moneyRows}</tbody>
-    </table>
+    </table></div>
   </section>
 
   <section class="panel">
@@ -175,7 +186,7 @@ function pageEconomy() {
     <ul class="points">
       <li><strong>Pertumbuhan 5,03%</strong> pada 2024 ditopang konsumsi rumah tangga dan investasi; kontraksi 2020 (-2,07%) adalah satu-satunya tahun negatif dalam enam tahun terakhir.</li>
       <li><strong>Inflasi 1,57%</strong> pada 2024 adalah yang terendah sejak 2020 dan berada dalam sasaran Bank Indonesia (2,5% ±1%).</li>
-      <li><strong>Ekspor 2024 (US$264,7 M)</strong> turun dari rekor 2022 (US$291,9 M) seiring normalisasi harga komoditas, tetapi neraca dagang tetap surplus 59 bulan beruntun hingga akhir 2024.</li>
+      <li><strong>Ekspor 2024 (US$264,7 M)</strong> turun dari rekor 2022 (US$291,9 M) seiring normalisasi harga komoditas, tetapi neraca dagang tetap surplus 56 bulan beruntun hingga akhir 2024.</li>
     </ul>
   </section>`;
 }
@@ -214,12 +225,12 @@ function pagePopulation() {
     <h2>Provinsi berpenduduk terbesar, 2024</h2>
     <p class="tools"><label>Cari provinsi: <input id="prov-q" type="search" placeholder="mis. Jawa Barat" aria-label="Cari provinsi"></label>
     <span id="prov-count">${PROVINCES.length} provinsi ditampilkan</span></p>
-    <table class="tbl" id="prov-tbl">
+    <div class="tbl-wrap"><table class="tbl" id="prov-tbl">
       <thead><tr><th><button class="sort-btn" data-key="rank">#</button></th>
       <th><button class="sort-btn" data-key="name">Provinsi</button></th><th>Ibu kota</th>
       <th><button class="sort-btn" data-key="pop">Penduduk 2024 (juta)</button></th><th>Pangsa</th></tr></thead>
       <tbody>${rows}</tbody>
-    </table>
+    </table></div>
     ${originLine(PROVINCES_SOURCE)}
   </section>`;
 }
@@ -291,7 +302,7 @@ function pageJobs() {
   <section class="panel">
     <h2>Membaca angka pengangguran</h2>
     <ul class="points">
-      <li><strong>TPT turun lima tahun beruntun</strong> dari puncak pandemi 7,07% (Agustus 2020) menjadi 4,91% (Agustus 2024) dan 4,76% (Februari 2025).</li>
+      <li><strong>TPT turun dalam lima pembacaan survei beruntun</strong> dari puncak pandemi 7,07% (Agustus 2020) menjadi 4,91% (Agustus 2024) dan 4,76% (Februari 2025).</li>
       <li><strong>Pengangguran perkotaan (5,73%) lebih tinggi</strong> daripada perdesaan (3,61%) pada Februari 2025 — pola yang konsisten setiap tahun.</li>
       <li><strong>Upah rata-rata buruh Rp3,09 juta/bulan</strong> (Agustus 2024), naik dari Rp2,87 juta pada Agustus 2023.</li>
     </ul>
@@ -320,7 +331,7 @@ function pagePoverty() {
 
   <section class="panel">
     <h2>Angka kunci</h2>
-    <table class="tbl">
+    <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>Indikator</th><th>Nilai</th><th>Keterangan</th></tr></thead>
       <tbody>
         <tr><td>Penduduk miskin</td><td><strong>24,06 juta jiwa</strong></td><td>Maret 2025</td></tr>
@@ -329,7 +340,7 @@ function pagePoverty() {
         <tr><td>Kemiskinan perdesaan</td><td><strong>11,03%</strong></td><td>Maret 2025</td></tr>
         <tr><td>Rasio gini</td><td><strong>0,375</strong></td><td>Maret 2025</td></tr>
       </tbody>
-    </table>
+    </table></div>
     ${originLine("Badan Pusat Statistik (BPS)", "Profil Kemiskinan di Indonesia, Maret 2025")}
   </section>
 
@@ -387,19 +398,19 @@ function provinceTable(a, b) {
   const pb = PROVINCES.find((p) => p.province === b);
   if (!pa || !pb) return "<p>Pilih dua provinsi.</p>";
   const bar = (p) => {
-    const pct = (p.millions / 49.94) * 100;
+    const pct = (p.millions / Math.max(...PROVINCES.map((q) => q.millions))) * 100;
     return `<div class="bar"><span class="bar-fill" style="width:${pct.toFixed(1)}%"></span></div>`;
   };
   const bigger = pa.millions >= pb.millions ? pa : pb;
   const smaller = pa.millions >= pb.millions ? pb : pa;
-  return `<table class="tbl">
+  return `<div class="tbl-wrap"><table class="tbl">
     <thead><tr><th></th><th>${esc(pa.province)}</th><th>${esc(pb.province)}</th></tr></thead>
     <tbody>
       <tr><td>Ibu kota</td><td>${esc(pa.city)}</td><td>${esc(pb.city)}</td></tr>
       <tr><td>Penduduk 2024</td><td><strong>${idNumber(pa.millions)} juta</strong>${bar(pa)}</td><td><strong>${idNumber(pb.millions)} juta</strong>${bar(pb)}</td></tr>
       <tr><td>Pangsa penduduk nasional</td><td>${idNumber((pa.millions / 281.6) * 100, 1)}%</td><td>${idNumber((pb.millions / 281.6) * 100, 1)}%</td></tr>
       <tr><td>Selisih</td><td colspan="2">${pa.province === pb.province ? "Provinsi yang sama." : `${esc(bigger.province)} lebih besar ${idNumber(bigger.millions - smaller.millions)} juta jiwa (${idNumber((bigger.millions / smaller.millions - 1) * 100, 0)}% lebih besar).`}</td></tr>
-    </tbody></table>`;
+    </tbody></table></div>`;
 }
 
 function yearTableCompare(ya, yb) {
@@ -419,13 +430,13 @@ function yearTableCompare(ya, yb) {
     return "+" + idNumber(vb - va) + " jt";
   })();
   const delta = (x, y) => (y - x >= 0 ? "+" : "") + idNumber(y - x) + " poin";
-  return `<table class="tbl">
+  return `<div class="tbl-wrap"><table class="tbl">
     <thead><tr><th>Indikator</th><th>${ya}</th><th>${yb}</th><th>Perubahan</th></tr></thead>
     <tbody>
       <tr><td>Pertumbuhan ekonomi</td><td>${idNumber(g1)}%</td><td>${idNumber(g2)}%</td><td>${delta(g1, g2)}</td></tr>
       <tr><td>Inflasi</td><td>${idNumber(i1)}%</td><td>${idNumber(i2)}%</td><td>${delta(i1, i2)}</td></tr>
       <tr><td>Jumlah penduduk</td><td>${popCell(ya)}</td><td>${popCell(yb)}</td><td>${popDiff}</td></tr>
-    </tbody></table>`;
+    </tbody></table></div>`;
 }
 
 function paintCompare() {
@@ -475,10 +486,10 @@ function pageData() {
 
   <section class="panel">
     <h2>Sosial &amp; digital</h2>
-    <table class="tbl">
+    <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>Indikator</th><th>Nilai</th><th>Keterangan</th><th>Sumber</th></tr></thead>
       <tbody>${SOCIAL.map((s) => `<tr><td>${esc(s.item)}</td><td><strong>${esc(s.figure)}</strong></td><td>${esc(s.detail)}</td><td>${esc(s.origin)}</td></tr>`).join("")}</tbody>
-    </table>
+    </table></div>
   </section>`;
 }
 
@@ -521,7 +532,7 @@ function pageSources() {
 
   <section class="panel">
     <h2>Sumber data</h2>
-    <table class="tbl">
+    <div class="tbl-wrap"><table class="tbl">
       <thead><tr><th>Sumber</th><th>Yang dipakai</th></tr></thead>
       <tbody>
         <tr><td><strong>Badan Pusat Statistik (BPS)</strong></td><td>Pertumbuhan ekonomi, inflasi, penduduk, pengangguran, kemiskinan, gini, IPM, ekspor-impor, upah, garis kemiskinan, struktur umur, penduduk provinsi.</td></tr>
@@ -529,7 +540,7 @@ function pageSources() {
         <tr><td><strong>Kementerian Keuangan</strong></td><td>Realisasi APBN 2024: pendapatan, belanja, defisit.</td></tr>
         <tr><td><strong>APJII</strong></td><td>Survei penetrasi internet 2024.</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <p>Semua angka adalah angka resmi yang dipublikasikan lembaga tersebut; situs ini tidak menghitung ulang angka mentah kecuali penjumlahan dan pangsa yang ditandai sebagai hitungan situs.</p>
   </section>
 

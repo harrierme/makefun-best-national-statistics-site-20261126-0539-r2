@@ -113,7 +113,7 @@ export function lineChart(canvas, series, opts = {}) {
   // Titik + label nilai. Nilai negatif ditulis di bawah titik supaya
   // tidak menabrak garis yang turun tajam ke titik itu.
   ctx.font = "bold 11px system-ui, sans-serif";
-  ctx.textAlign = "center";
+  ctx.fillStyle = INK;
   values.forEach((v, i) => {
     ctx.beginPath();
     ctx.arc(xs[i], ys[i], 4, 0, Math.PI * 2);
@@ -123,12 +123,17 @@ export function lineChart(canvas, series, opts = {}) {
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.fillStyle = INK;
+    // Label titik tepi digeser ke dalam supaya tidak menabrak label sumbu Y
+    // (titik pertama) atau terpotong tepi kanan (titik terakhir).
+    const edge = i === 0 ? "first" : i === values.length - 1 ? "last" : "mid";
+    ctx.textAlign = edge === "first" ? "left" : edge === "last" ? "right" : "center";
+    const lx = edge === "first" ? xs[i] + 8 : edge === "last" ? xs[i] - 8 : xs[i];
     if (v < 0) {
       ctx.textBaseline = "top";
-      ctx.fillText(tickLabel(v), xs[i], ys[i] + 8);
+      ctx.fillText(tickLabel(v), lx, ys[i] + 8);
     } else {
       ctx.textBaseline = "bottom";
-      ctx.fillText(tickLabel(v), xs[i], ys[i] - 8);
+      ctx.fillText(tickLabel(v), lx, ys[i] - 8);
     }
   });
 }
